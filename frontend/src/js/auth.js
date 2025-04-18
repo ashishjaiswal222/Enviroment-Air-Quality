@@ -1,18 +1,9 @@
 document.addEventListener('alpine:init', () => {
-    Alpine.data('loginForm', () => ({
+    Alpine.data('auth', () => ({
       email: '',
       password: '',
       error: '',
-      async validateForm() {
-        if (!this.email) {
-          this.error = 'Email is required';
-          return;
-        }
-        if (!this.password) {
-          this.error = 'Password is required';
-          return;
-        }
-  
+      async login() {
         try {
           const response = await fetch('/api/auth/login', {
             method: 'POST',
@@ -24,35 +15,13 @@ document.addEventListener('alpine:init', () => {
             this.error = data.message || 'Login failed';
             return;
           }
-          console.log('Login successful:', data);
           localStorage.setItem('token', data.token);
           window.location.href = '/dashboard.html';
         } catch (err) {
           this.error = 'An error occurred';
-          console.error(err);
         }
-      }
-    }));
-  
-    Alpine.data('registerForm', () => ({
-      email: '',
-      password: '',
-      confirmPassword: '',
-      error: '',
-      async validateRegister() {
-        if (!this.email) {
-          this.error = 'Email is required';
-          return;
-        }
-        if (!this.password) {
-          this.error = 'Password is required';
-          return;
-        }
-        if (this.password !== this.confirmPassword) {
-          this.error = 'Passwords do not match';
-          return;
-        }
-  
+      },
+      async signup() {
         try {
           const response = await fetch('/api/auth/signup', {
             method: 'POST',
@@ -61,29 +30,18 @@ document.addEventListener('alpine:init', () => {
           });
           const data = await response.json();
           if (!response.ok) {
-            this.error = data.message || 'Registration failed';
+            this.error = data.message || 'Signup failed';
             return;
           }
-          console.log('Registration successful:', data);
           localStorage.setItem('token', data.token);
           window.location.href = '/dashboard.html';
         } catch (err) {
           this.error = 'An error occurred';
-          console.error(err);
         }
-      }
-    }));
-  
-    Alpine.data('resetForm', () => ({
-      email: '',
-      error: '',
-      validateReset() {
-        if (!this.email) {
-          this.error = 'Email is required';
-        } else {
-          this.error = '';
-          console.log('Reset requested for:', this.email);
-          // TODO: Implement password reset API
+      },
+      checkAuth() {
+        if (!localStorage.getItem('token') && !['/login.html', '/register.html', '/reset.html'].includes(window.location.pathname)) {
+          window.location.href = '/login.html';
         }
       }
     }));
