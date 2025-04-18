@@ -17,6 +17,9 @@ document.addEventListener('alpine:init', () => {
     },
     alerts: [],
     charts: {},
+    get currentData() {
+      return this.mode === 'indoor' ? this.indoorData : this.outdoorData;
+    },
     async init() {
       // Initialize WebSocket
       const wsUrl = window.location.protocol === 'https:' ? 'wss://' + window.location.host : 'ws://localhost:5000';
@@ -93,6 +96,11 @@ document.addEventListener('alpine:init', () => {
         this.charts[config.id].data.datasets[0].data = [value, value - 1, value, value + 1, value];
         this.charts[config.id].update();
       });
+    },
+    checkAuth() {
+      if (!localStorage.getItem('token') && !['/login.html', '/register.html', '/reset.html'].includes(window.location.pathname)) {
+        window.location.href = '/login.html';
+      }
     }
   }));
 });

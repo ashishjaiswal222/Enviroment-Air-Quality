@@ -21,7 +21,7 @@
       </div>
     </nav>
 
-    <div class="p-6 bg-gray-100 min-h-screen" x-data="dashboardData">
+    <div class="p-6 bg-gray-100 min-h-screen" x-data="dashboardData" x-init="checkAuth(); init()">
       <div class="flex justify-center mb-6">
         <div class="inline-flex rounded-md shadow-sm">
           <button
@@ -96,6 +96,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.x.x/dist/chart.umd.min.js"></script>
+  <script src="/js/auth.js"></script>
   <script src="/js/weather.js"></script>
   <script src="/js/dashboard.js"></script>
 </body>
