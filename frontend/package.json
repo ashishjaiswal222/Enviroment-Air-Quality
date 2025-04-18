@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "npm run build:css && cp -r src/assets ../../backend/public/ && cp -r src/js ../../backend/public/ && cp src/*.html ../../backend/public/",
-    "build:css": "tailwindcss -i src/css/tailwind.css -o ../../backend/public/css/styles.css",
+    "build:css": "tailwindcss -i src/css/tailwind.css -o build/css/styles.css",
+    "build": "npm run build:css && mkdir -p build && cp -r src/js build/ && cp src/*.html build/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,6 +12,6 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "tailwindcss": "^3.x.x"
+    "tailwindcss": "^4.1.4"
   }
 }
